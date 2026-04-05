@@ -6,6 +6,12 @@ A Go-based Auction Simulator that runs 40 concurrent auctions with 100 bidders, 
 
 ---
 
+## Demo Execution
+
+https://github.com/user-attachments/assets/go-auction-simulator-demo-output.mp4
+
+---
+
 ## How It Works
 
 1. **100 Bidders** are created once and shared across all auctions.
@@ -45,6 +51,114 @@ go build -o auction-simulator .
 Files are written to the `output/` directory:
 - `AUCTION-001.json` through `AUCTION-040.json` — full details per auction (attributes, all bids, winner, timing).
 - `_SUMMARY.json` — consolidated config, timing, resource snapshot, and per-auction summary.
+
+## Sample Output
+
+### Individual Auction (`output/AUCTION-001.json`)
+
+Each auction file contains the full attributes, all received bids, the winner, and timing:
+
+```json
+{
+  "auction_id": "AUCTION-001",
+  "attributes": {
+    "attr1_category": "health",
+    "attr2_quality": "used-good",
+    "attr3_base_price": 25.82,
+    "attr4_weight": 46.79,
+    "attr5_rating": 4.6,
+    "attr6_popularity": 660,
+    "attr7_stock": 402,
+    "attr8_discount": 0.47,
+    "attr9_shipping_cost": 9.47,
+    "attr10_return_policy": false,
+    "attr11_warranty": true,
+    "attr12_brand_tier": 3,
+    "attr13_seasonality": 0.73,
+    "attr14_demand_index": 0.29,
+    "attr15_supply_index": 0.06,
+    "attr16_margin": 0.33,
+    "attr17_click_rate": 0.1554,
+    "attr18_conversion_rate": 0.0078,
+    "attr19_impressions": 64999,
+    "attr20_geo_region": "EU"
+  },
+  "total_bidders": 100,
+  "bids_received": 54,
+  "bids_timed_out_or_declined": 46,
+  "bids": [
+    {
+      "bidder_id": 90,
+      "bidder_name": "Bidder-090",
+      "auction_id": "AUCTION-001",
+      "price": 32.99,
+      "latency_ms": 6,
+      "responded_at": "2026-04-05T14:12:43.6765685+05:30"
+    },
+    "... (54 bids total)"
+  ],
+  "winner": {
+    "bidder_id": 83,
+    "bidder_name": "Bidder-083",
+    "price": 49.76,
+    "latency_ms": 81
+  },
+  "timing": {
+    "start_time": "2026-04-05T14:12:43.6648335+05:30",
+    "end_time": "2026-04-05T14:12:43.8655758+05:30",
+    "duration_ms": 200
+  }
+}
+```
+
+### Summary (`output/_SUMMARY.json`)
+
+The summary file consolidates configuration, wall-clock timing, resource usage, and per-auction results:
+
+```json
+{
+  "configuration": {
+    "total_bidders": 100,
+    "concurrent_auctions": 40,
+    "attributes_per_auction": 20,
+    "auction_timeout_ms": 200,
+    "vcpus": 2,
+    "memory_mb": 512
+  },
+  "timing": {
+    "first_auction_start": "2026-04-05T14:12:43.6648335+05:30",
+    "last_auction_end": "2026-04-05T14:12:43.9513344+05:30",
+    "total_wall_clock_ms": 286
+  },
+  "resources": {
+    "configured_vcpus": 2,
+    "configured_memory_mb": 512,
+    "num_goroutines": 1,
+    "heap_alloc_mb": 6.07,
+    "heap_sys_mb": 7.41,
+    "total_alloc_mb": 6.55,
+    "num_gc": 1,
+    "num_cpu": 18
+  },
+  "auctions": [
+    {
+      "auction_id": "AUCTION-001",
+      "bids_received": 54,
+      "timed_out": 46,
+      "winner": "Bidder-083 @ $49.76 (81ms)",
+      "duration_ms": 200
+    },
+    {
+      "auction_id": "AUCTION-002",
+      "bids_received": 44,
+      "timed_out": 56,
+      "winner": "Bidder-006 @ $49.36 (68ms)",
+      "duration_ms": 200
+    },
+    "... (40 auctions total)"
+  ]
+}
+```
 
 ## Resource Standardization (Docker)
 
