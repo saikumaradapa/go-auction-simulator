@@ -8,7 +8,7 @@ A Go-based Auction Simulator that runs 40 concurrent auctions with 100 bidders, 
 
 ## Demo Execution
 
-https://github.com/user-attachments/assets/go-auction-simulator-demo-output.mp4
+https://github.com/user-attachments/assets/ef3a3616-60d3-43db-aedd-e937a3fc0a9e
 
 ---
 
